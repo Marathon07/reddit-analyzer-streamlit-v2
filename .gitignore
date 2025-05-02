@@ -1,0 +1,24 @@
+# Secrets file for local development (IMPORTANT!)
+.streamlit/secrets.toml
+
+# File storing processed IDs (if using the local version with skipping)
+processed_post_ids.txt
+
+# Optional: Python virtual environment folders (if you use one like venv)
+venv/
+.venv/
+
+# Optional: Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Optional: IDE/Editor specific folders (e.g., for VS Code)
+.vscode/
+
+# Optional: macOS specific files
+.DS_Store
+
+scrap result/
+
+reddit_analyzer_app.py
