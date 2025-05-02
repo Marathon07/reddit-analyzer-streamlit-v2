@@ -358,7 +358,8 @@ if st.session_state.scraped_data is not None:
                     st.markdown("---"); st.write(f"**与 {model_display_name_for_this_session} 的对话分析记录:**")
                     for message in st.session_state.chat_context["history"]:
                          if isinstance(message,dict) and"role"in message and"parts"in message and isinstance(message["parts"],list) and message["parts"]: role_disp=message["role"];
-                         with st.chat_message(role_disp): st.markdown(message["parts"][0]).replace("<br>", "\n"))
+                         # 正确的写法： .replace() 作用在 message["parts"][0] 这个字符串上，然后结果作为参数传给 st.markdown()
+                         with st.chat_message(role_disp): st.markdown(message["parts"][0].replace("<br>", "\n"))
                 chat_input_disabled=not(active_chat_client and active_chat_key); # Chat Input Box
                 if prompt := st.chat_input(f"向 {model_display_name_for_this_session} 继续提问...", disabled=chat_input_disabled, key="chat_input"):
                      st.session_state.chat_context["history"].append({"role":"user","parts":[prompt]});
