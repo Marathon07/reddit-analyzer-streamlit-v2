@@ -358,7 +358,7 @@ if st.session_state.scraped_data is not None:
                     st.markdown("---"); st.write(f"**与 {model_display_name_for_this_session} 的对话分析记录:**")
                     for message in st.session_state.chat_context["history"]:
                          if isinstance(message,dict) and"role"in message and"parts"in message and isinstance(message["parts"],list) and message["parts"]: role_disp=message["role"];
-                         with st.chat_message(role_disp): st.markdown(message["parts"][0])
+                         with st.chat_message(role_disp): st.markdown(message["parts"][0]).replace("<br>", "\n"))
                 chat_input_disabled=not(active_chat_client and active_chat_key); # Chat Input Box
                 if prompt := st.chat_input(f"向 {model_display_name_for_this_session} 继续提问...", disabled=chat_input_disabled, key="chat_input"):
                      st.session_state.chat_context["history"].append({"role":"user","parts":[prompt]});
@@ -368,7 +368,7 @@ if st.session_state.scraped_data is not None:
                              response=generate_ai_response(active_chat_key, st.session_state.chat_context["history"], model_details_for_this_session, active_chat_client)
                              if isinstance(response,str) and not response.startswith("错误："): st.markdown(response); st.session_state.chat_context["history"].append({"role":"model","parts":[response]})
                              else: st.error(f"未能从 {model_display_name_for_this_session} 获取有效回复。错误: {response}");
-                             if st.session_state.chat_context["history"] and st.session_state.chat_context["history"][-1]["role"]=="user": st.session_state.chat_context["history"].pop()
+                             if isinstance(response,str) and not response.startswith("错误："): st.markdown(response.replace("<br>", "\n")); st.session_state.chat_context["history"].append({"role":"model","parts":[response]})
                      st.rerun()
              else: st.error(f"无法为模型 {model_display_name_for_this_session} 初始化客户端或获取 API Key，无法进行聊天。")
 
